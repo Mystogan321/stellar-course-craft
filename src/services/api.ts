@@ -1,41 +1,11 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { Course } from '@/store/slices/dashboardSlice';
 import { CourseFormState } from '@/store/slices/courseFormSlice';
 
-// Extend the AxiosInstance type to include our mock methods
-interface ExtendedAxiosInstance extends axios.AxiosInstance {
+interface ExtendedAxiosInstance extends AxiosInstance {
   getMockCourses: () => Promise<Course[]>;
   getMockCourse: (id: string) => Promise<Course | null>;
 }
-
-const api = axios.create({
-  baseURL: 'https://api.mockyour.app/v1', // Replace with actual API URL in production
-  headers: {
-    'Content-Type': 'application/json',
-  },
-}) as ExtendedAxiosInstance;
-
-// Intercept requests for demonstration/mock purposes
-api.interceptors.request.use(config => {
-  console.log(`API Request: ${config.method?.toUpperCase()} ${config.url}`);
-  return config;
-});
-
-// Intercept responses for demonstration/mock purposes
-api.interceptors.response.use(
-  response => {
-    console.log(`API Response: ${response.status} from ${response.config.url}`);
-    return response;
-  },
-  error => {
-    console.error('API Error:', error);
-    // Simulate network error for mock endpoints
-    if (error.config && error.config.url) {
-      console.log('Using mock data fallback');
-    }
-    throw error;
-  }
-);
 
 // Mock data for development
 const mockCourses: Course[] = [
@@ -91,16 +61,23 @@ const mockCourses: Course[] = [
   }
 ];
 
+const api = axios.create({
+  baseURL: 'https://api.mockyour.app/v1',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+}) as unknown as ExtendedAxiosInstance;
+
 // Helper function to simulate API delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Mock API functions
-export const getMockCourses = async (): Promise<Course[]> => {
-  await delay(500); // Simulate network delay
+api.getMockCourses = async (): Promise<Course[]> => {
+  await delay(500);
   return [...mockCourses];
 };
 
-export const getMockCourse = async (id: string): Promise<Course | null> => {
+api.getMockCourse = async (id: string): Promise<Course | null> => {
   await delay(300);
   const course = mockCourses.find(course => course.id === id);
   return course || null;
@@ -157,9 +134,5 @@ export const getCategories = async () => {
     'Health & Fitness',
   ];
 };
-
-// Add to the API object for consistent usage
-api.getMockCourses = getMockCourses;
-api.getMockCourse = getMockCourse;
 
 export default api;
