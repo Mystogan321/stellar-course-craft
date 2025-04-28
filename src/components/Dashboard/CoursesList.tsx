@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { publishCourse, unpublishCourse } from '@/store/slices/dashboardSlice';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,6 +13,7 @@ import {
 } from 'lucide-react';
 
 const CoursesList: React.FC = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { courses } = useAppSelector(state => state.dashboard);
   const [sortBy, setSortBy] = useState<'date' | 'students' | 'rating'>('date');
@@ -52,6 +54,18 @@ const CoursesList: React.FC = () => {
           });
         });
     }
+  };
+
+  const handleViewCourse = (courseId: string) => {
+    navigate(`/course/${courseId}`);
+  };
+
+  const handleEditCourse = (courseId: string) => {
+    navigate(`/edit-course/${courseId}`);
+  };
+
+  const handleCreateCourse = () => {
+    navigate('/create-course');
   };
 
   const sortedAndFilteredCourses = courses
@@ -111,7 +125,7 @@ const CoursesList: React.FC = () => {
             <label htmlFor="show-unpublished" className="text-sm">Unpublished</label>
           </div>
           <div className="flex-grow"></div>
-          <Button size="sm">
+          <Button size="sm" onClick={handleCreateCourse}>
             <Plus className="mr-1 h-4 w-4" />
             New Course
           </Button>
@@ -162,11 +176,19 @@ const CoursesList: React.FC = () => {
                           {course.isPublished ? "Published" : "Draft"}
                         </label>
                       </div>
-                      <Button variant="outline" size="sm">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => handleViewCourse(course.id)}
+                      >
                         <Eye className="mr-1 h-4 w-4" />
                         View
                       </Button>
-                      <Button variant="outline" size="sm">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => handleEditCourse(course.id)}
+                      >
                         <Pencil className="mr-1 h-4 w-4" />
                         Edit
                       </Button>

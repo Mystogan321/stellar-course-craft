@@ -10,11 +10,16 @@ import PricingForm from './PricingForm';
 import SettingsForm from './SettingsForm';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { saveCourse } from '@/services/api';
+import { saveCourse, updateCourse } from '@/services/api';
 import { toast } from '@/components/ui/use-toast';
 import { Check, FileText } from 'lucide-react';
 
-const CourseForm: React.FC = () => {
+interface CourseFormProps {
+  isEdit?: boolean;
+  courseId?: string;
+}
+
+const CourseForm: React.FC<CourseFormProps> = ({ isEdit = false, courseId }) => {
   const dispatch = useAppDispatch();
   const currentStep = useAppSelector(state => state.courseForm.currentStep);
   const courseForm = useAppSelector(state => state.courseForm);
@@ -52,11 +57,20 @@ const CourseForm: React.FC = () => {
     setIsSaving(true);
     try {
       dispatch(setCourseStatus('draft'));
-      await saveCourse(courseForm);
-      toast({
-        title: "Draft saved",
-        description: "Your course has been saved as a draft.",
-      });
+      
+      if (isEdit && courseId) {
+        await updateCourse(courseId, courseForm);
+        toast({
+          title: "Course updated",
+          description: "Your course has been saved as a draft.",
+        });
+      } else {
+        await saveCourse(courseForm);
+        toast({
+          title: "Draft saved",
+          description: "Your course has been saved as a draft.",
+        });
+      }
     } catch (error) {
       toast({
         title: "Save failed",
@@ -93,11 +107,20 @@ const CourseForm: React.FC = () => {
     setIsSubmitting(true);
     try {
       dispatch(setCourseStatus('submitted'));
-      await saveCourse(courseForm);
-      toast({
-        title: "Course submitted",
-        description: "Your course has been submitted for review.",
-      });
+      
+      if (isEdit && courseId) {
+        await updateCourse(courseId, courseForm);
+        toast({
+          title: "Course updated",
+          description: "Your course has been updated and submitted for review.",
+        });
+      } else {
+        await saveCourse(courseForm);
+        toast({
+          title: "Course submitted",
+          description: "Your course has been submitted for review.",
+        });
+      }
     } catch (error) {
       toast({
         title: "Submission failed",
@@ -160,7 +183,7 @@ const CourseForm: React.FC = () => {
               ) : (
                 <>
                   <Check className="mr-2 h-4 w-4" />
-                  Submit for Review
+                  {isEdit ? "Update Course" : "Submit for Review"}
                 </>
               )}
             </Button>
