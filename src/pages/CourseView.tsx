@@ -29,11 +29,15 @@ const CourseView = () => {
       } catch (error) {
         console.error('Failed to fetch course:', error);
         // Fallback to mock data for demonstration
-        const mockResponse = await api.getMockCourse(id as string);
-        if (mockResponse) {
-          setCourse(mockResponse);
-          setError(null);
-        } else {
+        try {
+          const mockResponse = await api.getMockCourse(id as string);
+          if (mockResponse) {
+            setCourse(mockResponse);
+            setError(null);
+          } else {
+            setError('Failed to load course data');
+          }
+        } catch (e) {
           setError('Failed to load course data');
         }
       } finally {

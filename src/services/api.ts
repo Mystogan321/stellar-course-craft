@@ -1,14 +1,19 @@
-
 import axios from 'axios';
 import { Course } from '@/store/slices/dashboardSlice';
 import { CourseFormState } from '@/store/slices/courseFormSlice';
+
+// Extend the AxiosInstance type to include our mock methods
+interface ExtendedAxiosInstance extends axios.AxiosInstance {
+  getMockCourses: () => Promise<Course[]>;
+  getMockCourse: (id: string) => Promise<Course | null>;
+}
 
 const api = axios.create({
   baseURL: 'https://api.mockyour.app/v1', // Replace with actual API URL in production
   headers: {
     'Content-Type': 'application/json',
   },
-});
+}) as ExtendedAxiosInstance;
 
 // Intercept requests for demonstration/mock purposes
 api.interceptors.request.use(config => {
