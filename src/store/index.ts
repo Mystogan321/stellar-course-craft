@@ -1,10 +1,12 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import courseFormReducer from './slices/courseFormSlice';
+import dashboardReducer from './slices/dashboardSlice';
 
 export const store = configureStore({
   reducer: {
     courseForm: courseFormReducer,
+    dashboard: dashboardReducer,
   },
 });
 
