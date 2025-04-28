@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,15 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				stellar: {
+					background: '#FBF2EB',
+					text: '#111723',
+					accent: '#BD00FF',
+				},
+			},
+			fontFamily: {
+				'neulis': ['Neulis Neue', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
