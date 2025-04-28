@@ -38,7 +38,7 @@ const Header: React.FC = () => {
                       </ListItem>
                       <ListItem
                         title="Create New Course"
-                        href="/"
+                        href="/create-course"
                         icon={Plus}
                       >
                         Create a new course from scratch
@@ -47,21 +47,17 @@ const Header: React.FC = () => {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link to="/dashboard" legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(
-                      "group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-                    )}>
-                      Dashboard
-                    </NavigationMenuLink>
+                  <Link to="/dashboard" className={cn(
+                    "group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+                  )}>
+                    Dashboard
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link to="/students" legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(
-                      "group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-                    )}>
-                      Students
-                    </NavigationMenuLink>
+                  <Link to="/students" className={cn(
+                    "group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+                  )}>
+                    Students
                   </Link>
                 </NavigationMenuItem>
               </NavigationMenuList>
